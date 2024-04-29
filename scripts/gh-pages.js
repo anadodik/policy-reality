@@ -5,10 +5,10 @@ ghpages.publish(
     {
         branch: 'gh-pages',
         silent: true,
-        repo: 'https://' + process.env.GITHUB_TOKEN + '@github.com/josecelano/svelte-deploy-with-github-actions.git',
+        repo: 'https://' + process.env.GITHUB_TOKEN + '@github.com/anadodik/policy-reality.git',
         user: {
-            name: 'Jose Celano',
-            email: 'josecelano@gmail.com'
+            name: 'Ana Dodik',
+            email: 'anadodik@mit.edu'
         }
     },
     () => {
