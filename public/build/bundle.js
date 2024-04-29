@@ -30,6 +30,14 @@ var app = (function () {
     function safe_not_equal(a, b) {
         return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
     }
+    let src_url_equal_anchor;
+    function src_url_equal(element_src, url) {
+        if (!src_url_equal_anchor) {
+            src_url_equal_anchor = document.createElement('a');
+        }
+        src_url_equal_anchor.href = url;
+        return element_src === src_url_equal_anchor.href;
+    }
     function is_empty(obj) {
         return Object.keys(obj).length === 0;
     }
@@ -65293,7 +65301,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (382:2) {#each features as feature}
+    // (531:5) {#each features as feature}
     function create_each_block_2(ctx) {
     	let option;
     	let t_value = /*feature*/ ctx[39].properties.municipal + "";
@@ -65306,7 +65314,7 @@ var app = (function () {
     			t = text$1(t_value);
     			option.__value = option_value_value = /*feature*/ ctx[39].properties.muni_id;
     			option.value = option.__value;
-    			add_location(option, file, 382, 3, 11123);
+    			add_location(option, file, 531, 6, 16749);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -65329,14 +65337,14 @@ var app = (function () {
     		block,
     		id: create_each_block_2.name,
     		type: "each",
-    		source: "(382:2) {#each features as feature}",
+    		source: "(531:5) {#each features as feature}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (388:2) {#each features as feature}
+    // (537:5) {#each features as feature}
     function create_each_block_1(ctx) {
     	let option;
     	let t_value = /*feature*/ ctx[39].properties.municipal + "";
@@ -65349,7 +65357,7 @@ var app = (function () {
     			t = text$1(t_value);
     			option.__value = option_value_value = /*feature*/ ctx[39].properties.muni_id;
     			option.value = option.__value;
-    			add_location(option, file, 388, 3, 11335);
+    			add_location(option, file, 537, 6, 16979);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -65372,14 +65380,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(388:2) {#each features as feature}",
+    		source: "(537:5) {#each features as feature}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (401:1) {:else}
+    // (550:4) {:else}
     function create_else_block_2(ctx) {
     	let t;
 
@@ -65402,14 +65410,14 @@ var app = (function () {
     		block,
     		id: create_else_block_2.name,
     		type: "else",
-    		source: "(401:1) {:else}",
+    		source: "(550:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (392:1) {#if counterfactualHousing}
+    // (541:4) {#if counterfactualHousing}
     function create_if_block_4(ctx) {
     	let t;
     	let button;
@@ -65442,8 +65450,8 @@ var app = (function () {
     			create_component(icon_1.$$.fragment);
     			attr_dev(button, "type", "button");
     			attr_dev(button, "id", "resetButton");
-    			attr_dev(button, "class", "svelte-cx9ob6");
-    			add_location(button, file, 397, 2, 11646);
+    			attr_dev(button, "class", "svelte-1chgxdf");
+    			add_location(button, file, 546, 5, 17317);
     		},
     		m: function mount(target, anchor) {
     			if_block.m(target, anchor);
@@ -65493,14 +65501,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4.name,
     		type: "if",
-    		source: "(392:1) {#if counterfactualHousing}",
+    		source: "(541:4) {#if counterfactualHousing}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (395:2) {:else}
+    // (544:5) {:else}
     function create_else_block_1(ctx) {
     	let t0;
     	let b;
@@ -65516,7 +65524,7 @@ var app = (function () {
     			t1 = text$1("displace ");
     			t2 = text$1(t2_value);
     			t3 = text$1(" people.");
-    			add_location(b, file, 395, 12, 11587);
+    			add_location(b, file, 544, 15, 17252);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -65539,14 +65547,14 @@ var app = (function () {
     		block,
     		id: create_else_block_1.name,
     		type: "else",
-    		source: "(395:2) {:else}",
+    		source: "(544:5) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (393:2) {#if counterfactualHousing >= 0}
+    // (542:5) {#if counterfactualHousing >= 0}
     function create_if_block_5(ctx) {
     	let t0;
     	let b;
@@ -65561,7 +65569,7 @@ var app = (function () {
     			t1 = text$1("house ");
     			t2 = text$1(/*counterfactualHousing*/ ctx[10]);
     			t3 = text$1(" more people.");
-    			add_location(b, file, 393, 12, 11515);
+    			add_location(b, file, 542, 15, 17174);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -65584,14 +65592,14 @@ var app = (function () {
     		block,
     		id: create_if_block_5.name,
     		type: "if",
-    		source: "(393:2) {#if counterfactualHousing >= 0}",
+    		source: "(542:5) {#if counterfactualHousing >= 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (422:1) {:else}
+    // (571:4) {:else}
     function create_else_block(ctx) {
     	let div5;
     	let h4;
@@ -65648,31 +65656,31 @@ var app = (function () {
     			div4 = element("div");
     			span4 = element("span");
     			t12 = text$1("6.17-51.50");
-    			attr_dev(h4, "class", "svelte-cx9ob6");
-    			add_location(h4, file, 424, 2, 12829);
-    			attr_dev(p, "class", "svelte-cx9ob6");
-    			add_location(p, file, 424, 25, 12852);
+    			attr_dev(h4, "class", "svelte-1chgxdf");
+    			add_location(h4, file, 573, 5, 18578);
+    			attr_dev(p, "class", "svelte-1chgxdf");
+    			add_location(p, file, 573, 28, 18601);
     			set_style(span0, "background-color", "#a8dbd9");
-    			attr_dev(span0, "class", "svelte-cx9ob6");
-    			add_location(span0, file, 425, 7, 12892);
-    			add_location(div0, file, 425, 2, 12887);
+    			attr_dev(span0, "class", "svelte-1chgxdf");
+    			add_location(span0, file, 574, 10, 18644);
+    			add_location(div0, file, 574, 5, 18639);
     			set_style(span1, "background-color", "#85c4c9");
-    			attr_dev(span1, "class", "svelte-cx9ob6");
-    			add_location(span1, file, 426, 7, 12962);
-    			add_location(div1, file, 426, 2, 12957);
+    			attr_dev(span1, "class", "svelte-1chgxdf");
+    			add_location(span1, file, 575, 10, 18717);
+    			add_location(div1, file, 575, 5, 18712);
     			set_style(span2, "background-color", "#68abb8");
-    			attr_dev(span2, "class", "svelte-cx9ob6");
-    			add_location(span2, file, 427, 7, 13032);
-    			add_location(div2, file, 427, 2, 13027);
+    			attr_dev(span2, "class", "svelte-1chgxdf");
+    			add_location(span2, file, 576, 10, 18790);
+    			add_location(div2, file, 576, 5, 18785);
     			set_style(span3, "background-color", "#4f90a6");
-    			attr_dev(span3, "class", "svelte-cx9ob6");
-    			add_location(span3, file, 428, 7, 13102);
-    			add_location(div3, file, 428, 2, 13097);
+    			attr_dev(span3, "class", "svelte-1chgxdf");
+    			add_location(span3, file, 577, 10, 18863);
+    			add_location(div3, file, 577, 5, 18858);
     			set_style(span4, "background-color", "#3b738f");
-    			attr_dev(span4, "class", "svelte-cx9ob6");
-    			add_location(span4, file, 429, 7, 13172);
-    			add_location(div4, file, 429, 2, 13167);
-    			add_location(div5, file, 422, 1, 12704);
+    			attr_dev(span4, "class", "svelte-1chgxdf");
+    			add_location(span4, file, 578, 10, 18936);
+    			add_location(div4, file, 578, 5, 18931);
+    			add_location(div5, file, 571, 4, 18447);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div5, anchor);
@@ -65720,14 +65728,14 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(422:1) {:else}",
+    		source: "(571:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (412:1) {#if visFeature === "dwellingDensity"}
+    // (561:4) {#if visFeature === "dwellingDensity"}
     function create_if_block_3(ctx) {
     	let div5;
     	let h4;
@@ -65784,31 +65792,31 @@ var app = (function () {
     			div4 = element("div");
     			span4 = element("span");
     			t12 = text$1("1.63-3.40");
-    			attr_dev(h4, "class", "svelte-cx9ob6");
-    			add_location(h4, file, 414, 2, 12286);
-    			attr_dev(p, "class", "svelte-cx9ob6");
-    			add_location(p, file, 414, 19, 12303);
+    			attr_dev(h4, "class", "svelte-1chgxdf");
+    			add_location(h4, file, 563, 5, 18005);
+    			attr_dev(p, "class", "svelte-1chgxdf");
+    			add_location(p, file, 563, 22, 18022);
     			set_style(span0, "background-color", "#a8dbd9");
-    			attr_dev(span0, "class", "svelte-cx9ob6");
-    			add_location(span0, file, 415, 7, 12343);
-    			add_location(div0, file, 415, 2, 12338);
+    			attr_dev(span0, "class", "svelte-1chgxdf");
+    			add_location(span0, file, 564, 10, 18065);
+    			add_location(div0, file, 564, 5, 18060);
     			set_style(span1, "background-color", "#85c4c9");
-    			attr_dev(span1, "class", "svelte-cx9ob6");
-    			add_location(span1, file, 416, 7, 12413);
-    			add_location(div1, file, 416, 2, 12408);
+    			attr_dev(span1, "class", "svelte-1chgxdf");
+    			add_location(span1, file, 565, 10, 18138);
+    			add_location(div1, file, 565, 5, 18133);
     			set_style(span2, "background-color", "#68abb8");
-    			attr_dev(span2, "class", "svelte-cx9ob6");
-    			add_location(span2, file, 417, 7, 12483);
-    			add_location(div2, file, 417, 2, 12478);
+    			attr_dev(span2, "class", "svelte-1chgxdf");
+    			add_location(span2, file, 566, 10, 18211);
+    			add_location(div2, file, 566, 5, 18206);
     			set_style(span3, "background-color", "#4f90a6");
-    			attr_dev(span3, "class", "svelte-cx9ob6");
-    			add_location(span3, file, 418, 7, 12553);
-    			add_location(div3, file, 418, 2, 12548);
+    			attr_dev(span3, "class", "svelte-1chgxdf");
+    			add_location(span3, file, 567, 10, 18284);
+    			add_location(div3, file, 567, 5, 18279);
     			set_style(span4, "background-color", "#3b738f");
-    			attr_dev(span4, "class", "svelte-cx9ob6");
-    			add_location(span4, file, 419, 7, 12623);
-    			add_location(div4, file, 419, 2, 12618);
-    			add_location(div5, file, 412, 1, 12161);
+    			attr_dev(span4, "class", "svelte-1chgxdf");
+    			add_location(span4, file, 568, 10, 18357);
+    			add_location(div4, file, 568, 5, 18352);
+    			add_location(div5, file, 561, 4, 17874);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div5, anchor);
@@ -65856,14 +65864,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3.name,
     		type: "if",
-    		source: "(412:1) {#if visFeature === \\\"dwellingDensity\\\"}",
+    		source: "(561:4) {#if visFeature === \\\"dwellingDensity\\\"}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (435:0) {#if dataLookup != {} && sourceMuni && targetMuni}
+    // (584:3) {#if dataLookup != {} && sourceMuni && targetMuni}
     function create_if_block_1(ctx) {
     	let svg;
     	let style;
@@ -65875,13 +65883,13 @@ var app = (function () {
     		c: function create() {
     			svg = svg_element("svg");
     			style = svg_element("style");
-    			t = text$1(".text {\n\t\t\t\tfont: 16px sans-serif;\n\t\t\t}\n\t\t");
+    			t = text$1(".text {\n\t\t\t\t\t\t\tfont: 16px sans-serif;\n\t\t\t\t\t\t}\n\t\t\t\t\t");
     			key_block.c();
-    			add_location(style, file, 436, 2, 13347);
+    			add_location(style, file, 585, 5, 19129);
     			attr_dev(svg, "width", "100%");
     			attr_dev(svg, "height", "100vh");
-    			attr_dev(svg, "class", "svelte-cx9ob6");
-    			add_location(svg, file, 435, 1, 13311);
+    			attr_dev(svg, "class", "svelte-1chgxdf");
+    			add_location(svg, file, 584, 4, 19090);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, svg, anchor);
@@ -65909,14 +65917,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(435:0) {#if dataLookup != {} && sourceMuni && targetMuni}",
+    		source: "(584:3) {#if dataLookup != {} && sourceMuni && targetMuni}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (444:5) {#if centroid.properties.muni_id == sourceMuni || centroid.properties.muni_id == targetMuni}
+    // (593:8) {#if centroid.properties.muni_id == sourceMuni || centroid.properties.muni_id == targetMuni}
     function create_if_block_2(ctx) {
     	let text_1;
     	let t_value = /*centroid*/ ctx[36].properties.municipal + "";
@@ -65940,8 +65948,8 @@ var app = (function () {
     			text_1 = svg_element("text");
     			t = text$1(t_value);
     			set_svg_attributes(text_1, text_data);
-    			toggle_class(text_1, "svelte-cx9ob6", true);
-    			add_location(text_1, file, 444, 6, 13572);
+    			toggle_class(text_1, "svelte-1chgxdf", true);
+    			add_location(text_1, file, 593, 9, 19378);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, text_1, anchor);
@@ -65957,7 +65965,7 @@ var app = (function () {
     				dirty[0] & /*centroids*/ 4096 && /*projectCentroid*/ ctx[15](/*centroid*/ ctx[36].geometry.coordinates)
     			]));
 
-    			toggle_class(text_1, "svelte-cx9ob6", true);
+    			toggle_class(text_1, "svelte-1chgxdf", true);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(text_1);
@@ -65968,14 +65976,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(444:5) {#if centroid.properties.muni_id == sourceMuni || centroid.properties.muni_id == targetMuni}",
+    		source: "(593:8) {#if centroid.properties.muni_id == sourceMuni || centroid.properties.muni_id == targetMuni}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (443:4) {#each centroids as centroid}
+    // (592:7) {#each centroids as centroid}
     function create_each_block(ctx) {
     	let if_block_anchor;
     	let if_block = (/*centroid*/ ctx[36].properties.muni_id == /*sourceMuni*/ ctx[3] || /*centroid*/ ctx[36].properties.muni_id == /*targetMuni*/ ctx[2]) && create_if_block_2(ctx);
@@ -66013,14 +66021,14 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(443:4) {#each centroids as centroid}",
+    		source: "(592:7) {#each centroids as centroid}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (442:3) {#key mapViewChanged}
+    // (591:6) {#key mapViewChanged}
     function create_key_block(ctx) {
     	let each_1_anchor;
     	let each_value = /*centroids*/ ctx[12];
@@ -66083,14 +66091,14 @@ var app = (function () {
     		block,
     		id: create_key_block.name,
     		type: "key",
-    		source: "(442:3) {#key mapViewChanged}",
+    		source: "(591:6) {#key mapViewChanged}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (460:1) {#if hoveredProperties && hoveredData}
+    // (609:4) {#if hoveredProperties && hoveredData}
     function create_if_block(ctx) {
     	let dt0;
     	let dd0;
@@ -66140,27 +66148,27 @@ var app = (function () {
     			dt4.textContent = "Zoned Density";
     			dd4 = element("dd");
     			t11 = text$1(t11_value);
-    			attr_dev(dt0, "class", "svelte-cx9ob6");
-    			add_location(dt0, file, 460, 2, 13963);
-    			attr_dev(dd0, "class", "svelte-cx9ob6");
-    			add_location(dd0, file, 461, 2, 13987);
-    			attr_dev(dt1, "class", "svelte-cx9ob6");
-    			add_location(dt1, file, 463, 2, 14029);
-    			attr_dev(dd1, "class", "svelte-cx9ob6");
-    			add_location(dd1, file, 464, 2, 14051);
-    			attr_dev(dt2, "class", "svelte-cx9ob6");
-    			add_location(dt2, file, 466, 2, 14087);
-    			add_location(sup, file, 467, 41, 14142);
-    			attr_dev(dd2, "class", "svelte-cx9ob6");
-    			add_location(dd2, file, 467, 2, 14103);
-    			attr_dev(dt3, "class", "svelte-cx9ob6");
-    			add_location(dt3, file, 469, 2, 14164);
-    			attr_dev(dd3, "class", "svelte-cx9ob6");
-    			add_location(dd3, file, 470, 2, 14191);
-    			attr_dev(dt4, "class", "svelte-cx9ob6");
-    			add_location(dt4, file, 472, 2, 14242);
-    			attr_dev(dd4, "class", "svelte-cx9ob6");
-    			add_location(dd4, file, 473, 2, 14267);
+    			attr_dev(dt0, "class", "svelte-1chgxdf");
+    			add_location(dt0, file, 609, 5, 19814);
+    			attr_dev(dd0, "class", "svelte-1chgxdf");
+    			add_location(dd0, file, 610, 5, 19841);
+    			attr_dev(dt1, "class", "svelte-1chgxdf");
+    			add_location(dt1, file, 612, 5, 19886);
+    			attr_dev(dd1, "class", "svelte-1chgxdf");
+    			add_location(dd1, file, 613, 5, 19911);
+    			attr_dev(dt2, "class", "svelte-1chgxdf");
+    			add_location(dt2, file, 615, 5, 19950);
+    			add_location(sup, file, 616, 44, 20008);
+    			attr_dev(dd2, "class", "svelte-1chgxdf");
+    			add_location(dd2, file, 616, 5, 19969);
+    			attr_dev(dt3, "class", "svelte-1chgxdf");
+    			add_location(dt3, file, 618, 5, 20033);
+    			attr_dev(dd3, "class", "svelte-1chgxdf");
+    			add_location(dd3, file, 619, 5, 20063);
+    			attr_dev(dt4, "class", "svelte-1chgxdf");
+    			add_location(dt4, file, 621, 5, 20117);
+    			attr_dev(dd4, "class", "svelte-1chgxdf");
+    			add_location(dd4, file, 622, 5, 20145);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, dt0, anchor);
@@ -66206,7 +66214,7 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(460:1) {#if hoveredProperties && hoveredData}",
+    		source: "(609:4) {#if hoveredProperties && hoveredData}",
     		ctx
     	});
 
@@ -66216,28 +66224,209 @@ var app = (function () {
     function create_fragment(ctx) {
     	let head;
     	let t0;
-    	let div0;
-    	let t1;
-    	let select0;
-    	let t2;
-    	let select1;
-    	let t3;
-    	let current_block_type_index;
-    	let if_block0;
-    	let t4;
+    	let div27;
     	let div1;
-    	let label;
-    	let input;
-    	let t5;
-    	let span;
-    	let t6;
-    	let t7;
-    	let t8;
-    	let dl;
-    	let dl_hidden_value;
-    	let t9;
+    	let div0;
+    	let h10;
+    	let t1;
+    	let mark0;
+    	let t3;
     	let div3;
     	let div2;
+    	let h11;
+    	let t4;
+    	let mark1;
+    	let t6;
+    	let t7;
+    	let h12;
+    	let t8;
+    	let mark2;
+    	let t10;
+    	let mark3;
+    	let t12;
+    	let mark4;
+    	let t14;
+    	let mark5;
+    	let t16;
+    	let t17;
+    	let h13;
+    	let t18;
+    	let mark6;
+    	let t20;
+    	let t21;
+    	let h14;
+    	let t22;
+    	let mark7;
+    	let t24;
+    	let mark8;
+    	let t26;
+    	let t27;
+    	let img0;
+    	let img0_src_value;
+    	let t28;
+    	let div5;
+    	let div4;
+    	let h15;
+    	let t29;
+    	let mark9;
+    	let t31;
+    	let t32;
+    	let h16;
+    	let t33;
+    	let mark10;
+    	let t35;
+    	let t36;
+    	let img1;
+    	let img1_src_value;
+    	let t37;
+    	let h17;
+    	let t39;
+    	let div7;
+    	let div6;
+    	let h18;
+    	let t40;
+    	let mark11;
+    	let t42;
+    	let mark12;
+    	let t44;
+    	let t45;
+    	let div9;
+    	let div8;
+    	let h19;
+    	let t46;
+    	let mark13;
+    	let t48;
+    	let t49;
+    	let img2;
+    	let img2_src_value;
+    	let t50;
+    	let h110;
+    	let t51;
+    	let mark14;
+    	let t53;
+    	let t54;
+    	let h111;
+    	let t55;
+    	let mark15;
+    	let t57;
+    	let t58;
+    	let div11;
+    	let div10;
+    	let h112;
+    	let t59;
+    	let mark16;
+    	let t61;
+    	let t62;
+    	let h113;
+    	let t64;
+    	let img3;
+    	let img3_src_value;
+    	let t65;
+    	let h114;
+    	let t67;
+    	let h115;
+    	let t69;
+    	let div13;
+    	let div12;
+    	let h116;
+    	let t70;
+    	let mark17;
+    	let t72;
+    	let t73;
+    	let div15;
+    	let div14;
+    	let h117;
+    	let mark18;
+    	let t75;
+    	let mark19;
+    	let t77;
+    	let u0;
+    	let t79;
+    	let u1;
+    	let t81;
+    	let t82;
+    	let img4;
+    	let img4_src_value;
+    	let t83;
+    	let h118;
+    	let t84;
+    	let u2;
+    	let t86;
+    	let t87;
+    	let div17;
+    	let div16;
+    	let h119;
+    	let mark20;
+    	let t89;
+    	let mark21;
+    	let t91;
+    	let u3;
+    	let t93;
+    	let u4;
+    	let t95;
+    	let u5;
+    	let t97;
+    	let t98;
+    	let img5;
+    	let img5_src_value;
+    	let t99;
+    	let h120;
+    	let t100;
+    	let u6;
+    	let t102;
+    	let t103;
+    	let div19;
+    	let div18;
+    	let h121;
+    	let mark22;
+    	let t105;
+    	let mark23;
+    	let t107;
+    	let u7;
+    	let t109;
+    	let u8;
+    	let t111;
+    	let u9;
+    	let t113;
+    	let t114;
+    	let img6;
+    	let img6_src_value;
+    	let t115;
+    	let h122;
+    	let t116;
+    	let u10;
+    	let t118;
+    	let t119;
+    	let div21;
+    	let div20;
+    	let h123;
+    	let t120;
+    	let mark24;
+    	let t122;
+    	let t123;
+    	let div26;
+    	let div25;
+    	let div22;
+    	let t124;
+    	let select0;
+    	let t125;
+    	let select1;
+    	let t126;
+    	let current_block_type_index;
+    	let if_block0;
+    	let t127;
+    	let div23;
+    	let label;
+    	let input;
+    	let t128;
+    	let span;
+    	let t129;
+    	let t130;
+    	let t131;
+    	let dl;
+    	let dl_hidden_value;
+    	let t132;
+    	let div24;
     	let current;
     	let mounted;
     	let dispose;
@@ -66282,66 +66471,520 @@ var app = (function () {
     		c: function create() {
     			head = element("head");
     			t0 = space();
+    			div27 = element("div");
+    			div1 = element("div");
     			div0 = element("div");
-    			t1 = text$1("If\n\t");
+    			h10 = element("h1");
+    			t1 = text$1("Policy ---> ");
+    			mark0 = element("mark");
+    			mark0.textContent = "Reality";
+    			t3 = space();
+    			div3 = element("div");
+    			div2 = element("div");
+    			h11 = element("h1");
+    			t4 = text$1("Massachusetts has the ");
+    			mark1 = element("mark");
+    			mark1.textContent = "5th most expensive";
+    			t6 = text$1(" housing prices in the country.");
+    			t7 = space();
+    			h12 = element("h1");
+    			t8 = text$1("Nearly ");
+    			mark2 = element("mark");
+    			mark2.textContent = "half";
+    			t10 = text$1(" of the state’s renters are ");
+    			mark3 = element("mark");
+    			mark3.textContent = "rent-burdened";
+    			t12 = text$1(" while a\n\t\t\t\t");
+    			mark4 = element("mark");
+    			mark4.textContent = "quarter";
+    			t14 = text$1(" are ");
+    			mark5 = element("mark");
+    			mark5.textContent = "severely rent-burdened";
+    			t16 = text$1(".");
+    			t17 = space();
+    			h13 = element("h1");
+    			t18 = text$1("Our housing market is extremely saturated with ");
+    			mark6 = element("mark");
+    			mark6.textContent = "rental vacancy rates at just 2.4%";
+    			t20 = text$1(".");
+    			t21 = space();
+    			h14 = element("h1");
+    			t22 = text$1("There is estimated to be a shortage of ");
+    			mark7 = element("mark");
+    			mark7.textContent = "125,000-200,000 housing units by 2030";
+    			t24 = text$1(", with ");
+    			mark8 = element("mark");
+    			mark8.textContent = "35,000-110,000 new\n\t\t\t\tunits";
+    			t26 = text$1(" required just to meet current demand.");
+    			t27 = space();
+    			img0 = element("img");
+    			t28 = space();
+    			div5 = element("div");
+    			div4 = element("div");
+    			h15 = element("h1");
+    			t29 = text$1("To mitigate the housing crisis, we need to build denser housing and use existing housing stock ");
+    			mark9 = element("mark");
+    			mark9.textContent = "as efficiently as possible";
+    			t31 = text$1(".");
+    			t32 = space();
+    			h16 = element("h1");
+    			t33 = text$1("One way to encourage this is to ensure that local laws allow for ");
+    			mark10 = element("mark");
+    			mark10.textContent = "higher density housing*";
+    			t35 = text$1(".");
+    			t36 = space();
+    			img1 = element("img");
+    			t37 = space();
+    			h17 = element("h1");
+    			h17.textContent = "*Housing density can be defined as the average number of dwelling units per acre (du/ac).";
+    			t39 = space();
+    			div7 = element("div");
+    			div6 = element("div");
+    			h18 = element("h1");
+    			t40 = text$1("How might ");
+    			mark11 = element("mark");
+    			mark11.textContent = "zoning";
+    			t42 = text$1(" allow for more ");
+    			mark12 = element("mark");
+    			mark12.textContent = "density";
+    			t44 = text$1("?");
+    			t45 = space();
+    			div9 = element("div");
+    			div8 = element("div");
+    			h19 = element("h1");
+    			t46 = text$1("One example of increasing neighborhood density is building an ");
+    			mark13 = element("mark");
+    			mark13.textContent = "accessory dwelling unit (ADU)";
+    			t48 = text$1(".");
+    			t49 = space();
+    			img2 = element("img");
+    			t50 = space();
+    			h110 = element("h1");
+    			t51 = text$1("Sometimes called “granny flats”, ADU’s can introduce some ");
+    			mark14 = element("mark");
+    			mark14.textContent = "gentle density";
+    			t53 = text$1(" into a neighborhood and\n\t\t\t\toften increase property values. They can allow for multi-generational living or even be rented out.");
+    			t54 = space();
+    			h111 = element("h1");
+    			t55 = text$1("ADU’s are often ");
+    			mark15 = element("mark");
+    			mark15.textContent = "prohibited by local laws";
+    			t57 = text$1(", but new laws to allow ADU’s have recently been adopted in\n\t\t\t\tplaces like Somerville!");
+    			t58 = space();
+    			div11 = element("div");
+    			div10 = element("div");
+    			h112 = element("h1");
+    			t59 = text$1("Another example of density-friendly adaptations are ");
+    			mark16 = element("mark");
+    			mark16.textContent = "single family home conversions";
+    			t61 = text$1(".");
+    			t62 = space();
+    			h113 = element("h1");
+    			h113.textContent = "This involves renovating a single house into multiple individual units.";
+    			t64 = space();
+    			img3 = element("img");
+    			t65 = space();
+    			h114 = element("h1");
+    			h114.textContent = "These homes often blend right in with the rest of the neighborhood, even preserving some historic homes.";
+    			t67 = space();
+    			h115 = element("h1");
+    			h115.textContent = "In an area that is zoned for single family homes only, this type of conversion would not be possible because it would exceed the allowable dwelling units per acre.";
+    			t69 = space();
+    			div13 = element("div");
+    			div12 = element("div");
+    			h116 = element("h1");
+    			t70 = text$1("What do different levels of ");
+    			mark17 = element("mark");
+    			mark17.textContent = "housing density";
+    			t72 = text$1(" look like in the Boston area?");
+    			t73 = space();
+    			div15 = element("div");
+    			div14 = element("div");
+    			h117 = element("h1");
+    			mark18 = element("mark");
+    			mark18.textContent = "Milton";
+    			t75 = text$1(" is an example of ");
+    			mark19 = element("mark");
+    			mark19.textContent = "low-density housing";
+    			t77 = text$1(" made up of ");
+    			u0 = element("u");
+    			u0.textContent = "single-family";
+    			t79 = text$1(" homes with ");
+    			u1 = element("u");
+    			u1.textContent = "large yards";
+    			t81 = text$1(".");
+    			t82 = space();
+    			img4 = element("img");
+    			t83 = space();
+    			h118 = element("h1");
+    			t84 = text$1("Average density: ");
+    			u2 = element("u");
+    			u2.textContent = "1.2 du/ac";
+    			t86 = text$1(".");
+    			t87 = space();
+    			div17 = element("div");
+    			div16 = element("div");
+    			h119 = element("h1");
+    			mark20 = element("mark");
+    			mark20.textContent = "Waltham";
+    			t89 = text$1(" is an example of ");
+    			mark21 = element("mark");
+    			mark21.textContent = "medium-density housing";
+    			t91 = text$1(", with a mix of ");
+    			u3 = element("u");
+    			u3.textContent = "single-family";
+    			t93 = text$1(" homes and ");
+    			u4 = element("u");
+    			u4.textContent = "gentle density";
+    			t95 = text$1(" like ");
+    			u5 = element("u");
+    			u5.textContent = "duplexes";
+    			t97 = text$1(".");
+    			t98 = space();
+    			img5 = element("img");
+    			t99 = space();
+    			h120 = element("h1");
+    			t100 = text$1("Average density: ");
+    			u6 = element("u");
+    			u6.textContent = "2.2 du/ac";
+    			t102 = text$1(".");
+    			t103 = space();
+    			div19 = element("div");
+    			div18 = element("div");
+    			h121 = element("h1");
+    			mark22 = element("mark");
+    			mark22.textContent = "Cambridge";
+    			t105 = text$1(" is an example of ");
+    			mark23 = element("mark");
+    			mark23.textContent = "high-density housing";
+    			t107 = text$1(", with a mix of ");
+    			u7 = element("u");
+    			u7.textContent = "multi-family";
+    			t109 = text$1(" homes, ");
+    			u8 = element("u");
+    			u8.textContent = "apartments";
+    			t111 = text$1(", and ");
+    			u9 = element("u");
+    			u9.textContent = "mixed-use buildings";
+    			t113 = text$1(".");
+    			t114 = space();
+    			img6 = element("img");
+    			t115 = space();
+    			h122 = element("h1");
+    			t116 = text$1("Average density: ");
+    			u10 = element("u");
+    			u10.textContent = "3.4 du/ac";
+    			t118 = text$1(".");
+    			t119 = space();
+    			div21 = element("div");
+    			div20 = element("div");
+    			h123 = element("h1");
+    			t120 = text$1("How many more people could we house if we ");
+    			mark24 = element("mark");
+    			mark24.textContent = "up-zoned";
+    			t122 = text$1(" Massachusetts?");
+    			t123 = space();
+    			div26 = element("div");
+    			div25 = element("div");
+    			div22 = element("div");
+    			t124 = text$1("If\n\t\t\t\t");
     			select0 = element("select");
 
     			for (let i = 0; i < each_blocks_1.length; i += 1) {
     				each_blocks_1[i].c();
     			}
 
-    			t2 = text$1("\n\thad the density of\n\t");
+    			t125 = text$1("\n\t\t\t\thad the density of\n\t\t\t\t");
     			select1 = element("select");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			t3 = space();
+    			t126 = space();
     			if_block0.c();
-    			t4 = space();
-    			div1 = element("div");
+    			t127 = space();
+    			div23 = element("div");
     			label = element("label");
     			input = element("input");
-    			t5 = space();
+    			t128 = space();
     			span = element("span");
-    			t6 = space();
+    			t129 = space();
     			if_block1.c();
-    			t7 = space();
+    			t130 = space();
     			if (if_block2) if_block2.c();
-    			t8 = space();
+    			t131 = space();
     			dl = element("dl");
     			if (if_block3) if_block3.c();
-    			t9 = space();
-    			div3 = element("div");
-    			div2 = element("div");
-    			add_location(head, file, 376, 0, 10993);
-    			attr_dev(select0, "class", "svelte-cx9ob6");
+    			t132 = space();
+    			div24 = element("div");
+    			add_location(head, file, 388, 0, 11286);
+    			attr_dev(mark0, "class", "svelte-1chgxdf");
+    			add_location(mark0, file, 394, 44, 11419);
+    			set_style(h10, "font-size", "6rem");
+    			attr_dev(h10, "class", "svelte-1chgxdf");
+    			add_location(h10, file, 394, 3, 11378);
+    			attr_dev(div0, "class", "text-wrap svelte-1chgxdf");
+    			add_location(div0, file, 393, 2, 11351);
+    			attr_dev(div1, "class", "section svelte-1chgxdf");
+    			add_location(div1, file, 392, 1, 11327);
+    			attr_dev(mark1, "class", "svelte-1chgxdf");
+    			add_location(mark1, file, 402, 54, 11589);
+    			set_style(h11, "font-size", "3rem");
+    			attr_dev(h11, "class", "svelte-1chgxdf");
+    			add_location(h11, file, 402, 3, 11538);
+    			attr_dev(mark2, "class", "svelte-1chgxdf");
+    			add_location(mark2, file, 404, 11, 11676);
+    			attr_dev(mark3, "class", "svelte-1chgxdf");
+    			add_location(mark3, file, 404, 56, 11721);
+    			attr_dev(mark4, "class", "svelte-1chgxdf");
+    			add_location(mark4, file, 405, 4, 11760);
+    			attr_dev(mark5, "class", "svelte-1chgxdf");
+    			add_location(mark5, file, 405, 29, 11785);
+    			attr_dev(h12, "class", "svelte-1chgxdf");
+    			add_location(h12, file, 403, 3, 11660);
+    			attr_dev(mark6, "class", "svelte-1chgxdf");
+    			add_location(mark6, file, 407, 81, 11912);
+    			set_style(h13, "font-size", "1.6rem");
+    			attr_dev(h13, "class", "svelte-1chgxdf");
+    			add_location(h13, file, 407, 3, 11834);
+    			attr_dev(mark7, "class", "svelte-1chgxdf");
+    			add_location(mark7, file, 409, 73, 12042);
+    			attr_dev(mark8, "class", "svelte-1chgxdf");
+    			add_location(mark8, file, 409, 130, 12099);
+    			set_style(h14, "font-size", "1.6rem");
+    			attr_dev(h14, "class", "svelte-1chgxdf");
+    			add_location(h14, file, 409, 3, 11972);
+    			attr_dev(div2, "class", "text-wrap svelte-1chgxdf");
+    			set_style(div2, "top", "35%");
+    			add_location(div2, file, 401, 2, 11493);
+    			if (!src_url_equal(img0.src, img0_src_value = "home.png")) attr_dev(img0, "src", img0_src_value);
+    			attr_dev(img0, "alt", "home");
+    			set_style(img0, "position", "absolute");
+    			set_style(img0, "bottom", "0");
+    			set_style(img0, "right", "0");
+    			set_style(img0, "width", "35%");
+    			attr_dev(img0, "class", "svelte-1chgxdf");
+    			add_location(img0, file, 414, 2, 12200);
+    			attr_dev(div3, "class", "section svelte-1chgxdf");
+    			add_location(div3, file, 400, 1, 11469);
+    			attr_dev(mark9, "class", "svelte-1chgxdf");
+    			add_location(mark9, file, 419, 130, 12499);
+    			set_style(h15, "font-size", "1.85rem");
+    			attr_dev(h15, "class", "svelte-1chgxdf");
+    			add_location(h15, file, 419, 3, 12372);
+    			attr_dev(mark10, "class", "svelte-1chgxdf");
+    			add_location(mark10, file, 422, 69, 12653);
+    			set_style(h16, "font-size", "1.4rem");
+    			attr_dev(h16, "class", "svelte-1chgxdf");
+    			add_location(h16, file, 421, 3, 12552);
+    			if (!src_url_equal(img1.src, img1_src_value = "home_2.png")) attr_dev(img1, "src", img1_src_value);
+    			attr_dev(img1, "alt", "home");
+    			set_style(img1, "width", "70%");
+    			set_style(img1, "padding-top", "50px");
+    			attr_dev(img1, "class", "svelte-1chgxdf");
+    			add_location(img1, file, 425, 3, 12704);
+    			set_style(h17, "font-size", ".7rem");
+    			attr_dev(h17, "class", "svelte-1chgxdf");
+    			add_location(h17, file, 426, 3, 12780);
+    			attr_dev(div4, "class", "text-wrap svelte-1chgxdf");
+    			set_style(div4, "top", "50%");
+    			add_location(div4, file, 418, 2, 12327);
+    			attr_dev(div5, "class", "section svelte-1chgxdf");
+    			add_location(div5, file, 417, 1, 12303);
+    			attr_dev(mark11, "class", "svelte-1chgxdf");
+    			add_location(mark11, file, 434, 17, 13025);
+    			attr_dev(mark12, "class", "svelte-1chgxdf");
+    			add_location(mark12, file, 434, 52, 13060);
+    			attr_dev(h18, "class", "svelte-1chgxdf");
+    			add_location(h18, file, 434, 3, 13011);
+    			attr_dev(div6, "class", "text-wrap svelte-1chgxdf");
+    			set_style(div6, "font-size", "1.5rem");
+    			add_location(div6, file, 433, 2, 12957);
+    			attr_dev(div7, "class", "section svelte-1chgxdf");
+    			add_location(div7, file, 432, 1, 12933);
+    			attr_dev(mark13, "class", "svelte-1chgxdf");
+    			add_location(mark13, file, 440, 69, 13240);
+    			attr_dev(h19, "class", "svelte-1chgxdf");
+    			add_location(h19, file, 440, 3, 13174);
+    			if (!src_url_equal(img2.src, img2_src_value = "houses.png")) attr_dev(img2, "src", img2_src_value);
+    			attr_dev(img2, "alt", "home");
+    			set_style(img2, "width", "75%");
+    			set_style(img2, "padding-top", "20px");
+    			set_style(img2, "padding-bottom", "20px");
+    			attr_dev(img2, "class", "svelte-1chgxdf");
+    			add_location(img2, file, 442, 3, 13296);
+    			attr_dev(mark14, "class", "svelte-1chgxdf");
+    			add_location(mark14, file, 444, 62, 13488);
+    			set_style(h110, "font-size", "1.3rem");
+    			attr_dev(h110, "class", "svelte-1chgxdf");
+    			add_location(h110, file, 443, 3, 13394);
+    			attr_dev(mark15, "class", "svelte-1chgxdf");
+    			add_location(mark15, file, 447, 51, 13704);
+    			set_style(h111, "font-size", "2.05rem");
+    			attr_dev(h111, "class", "svelte-1chgxdf");
+    			add_location(h111, file, 447, 3, 13656);
+    			attr_dev(div8, "class", "text-wrap svelte-1chgxdf");
+    			set_style(div8, "top", "50%");
+    			add_location(div8, file, 439, 2, 13130);
+    			attr_dev(div9, "class", "section svelte-1chgxdf");
+    			add_location(div9, file, 438, 1, 13106);
+    			attr_dev(mark16, "class", "svelte-1chgxdf");
+    			add_location(mark16, file, 456, 56, 14013);
+    			set_style(h112, "font-size", "1.5rem");
+    			attr_dev(h112, "class", "svelte-1chgxdf");
+    			add_location(h112, file, 455, 3, 13925);
+    			set_style(h113, "font-size", "1.5rem");
+    			attr_dev(h113, "class", "svelte-1chgxdf");
+    			add_location(h113, file, 458, 3, 14070);
+    			if (!src_url_equal(img3.src, img3_src_value = "site_plan_condo.jpeg")) attr_dev(img3, "src", img3_src_value);
+    			attr_dev(img3, "alt", "home");
+    			set_style(img3, "width", "65%");
+    			attr_dev(img3, "class", "svelte-1chgxdf");
+    			add_location(img3, file, 461, 3, 14190);
+    			set_style(h114, "font-size", "1rem");
+    			set_style(h114, "padding-top", "20px");
+    			attr_dev(h114, "class", "svelte-1chgxdf");
+    			add_location(h114, file, 462, 3, 14257);
+    			set_style(h115, "font-size", "1rem");
+    			attr_dev(h115, "class", "svelte-1chgxdf");
+    			add_location(h115, file, 465, 3, 14428);
+    			attr_dev(div10, "class", "text-wrap svelte-1chgxdf");
+    			set_style(div10, "top", "50%");
+    			add_location(div10, file, 454, 2, 13881);
+    			attr_dev(div11, "class", "section svelte-1chgxdf");
+    			add_location(div11, file, 453, 1, 13857);
+    			attr_dev(mark17, "class", "svelte-1chgxdf");
+    			add_location(mark17, file, 473, 35, 14765);
+    			attr_dev(h116, "class", "svelte-1chgxdf");
+    			add_location(h116, file, 473, 3, 14733);
+    			attr_dev(div12, "class", "text-wrap svelte-1chgxdf");
+    			set_style(div12, "font-size", "1.5rem");
+    			add_location(div12, file, 472, 2, 14679);
+    			attr_dev(div13, "class", "section svelte-1chgxdf");
+    			add_location(div13, file, 471, 1, 14655);
+    			set_style(mark18, "font-size", "2.2rem");
+    			set_style(mark18, "color", "#595959");
+    			attr_dev(mark18, "class", "svelte-1chgxdf");
+    			add_location(mark18, file, 480, 4, 14953);
+    			attr_dev(mark19, "class", "svelte-1chgxdf");
+    			add_location(mark19, file, 480, 84, 15033);
+    			add_location(u0, file, 480, 128, 15077);
+    			add_location(u1, file, 480, 160, 15109);
+    			set_style(h117, "font-size", "1.3rem");
+    			attr_dev(h117, "class", "svelte-1chgxdf");
+    			add_location(h117, file, 479, 3, 14917);
+    			if (!src_url_equal(img4.src, img4_src_value = "street1.png")) attr_dev(img4, "src", img4_src_value);
+    			attr_dev(img4, "alt", "home");
+    			set_style(img4, "width", "90%");
+    			set_style(img4, "padding-top", "20px");
+    			attr_dev(img4, "class", "svelte-1chgxdf");
+    			add_location(img4, file, 482, 3, 15142);
+    			add_location(u2, file, 484, 21, 15291);
+    			set_style(h118, "font-size", ".9rem");
+    			set_style(h118, "padding-top", "10px");
+    			attr_dev(h118, "class", "svelte-1chgxdf");
+    			add_location(h118, file, 483, 3, 15219);
+    			attr_dev(div14, "class", "text-wrap svelte-1chgxdf");
+    			set_style(div14, "top", "50%");
+    			add_location(div14, file, 478, 2, 14872);
+    			attr_dev(div15, "class", "section svelte-1chgxdf");
+    			add_location(div15, file, 477, 1, 14848);
+    			set_style(mark20, "font-size", "2.2rem");
+    			set_style(mark20, "color", "#595959");
+    			attr_dev(mark20, "class", "svelte-1chgxdf");
+    			add_location(mark20, file, 493, 4, 15443);
+    			attr_dev(mark21, "class", "svelte-1chgxdf");
+    			add_location(mark21, file, 493, 85, 15524);
+    			add_location(u3, file, 493, 136, 15575);
+    			add_location(u4, file, 493, 167, 15606);
+    			add_location(u5, file, 493, 194, 15633);
+    			set_style(h119, "font-size", "1.3rem");
+    			attr_dev(h119, "class", "svelte-1chgxdf");
+    			add_location(h119, file, 492, 3, 15407);
+    			if (!src_url_equal(img5.src, img5_src_value = "street2.png")) attr_dev(img5, "src", img5_src_value);
+    			attr_dev(img5, "alt", "home");
+    			set_style(img5, "width", "90%");
+    			set_style(img5, "padding-top", "20px");
+    			attr_dev(img5, "class", "svelte-1chgxdf");
+    			add_location(img5, file, 495, 3, 15663);
+    			add_location(u6, file, 497, 21, 15812);
+    			set_style(h120, "font-size", ".9rem");
+    			set_style(h120, "padding-top", "10px");
+    			attr_dev(h120, "class", "svelte-1chgxdf");
+    			add_location(h120, file, 496, 3, 15740);
+    			attr_dev(div16, "class", "text-wrap svelte-1chgxdf");
+    			set_style(div16, "top", "50%");
+    			add_location(div16, file, 491, 2, 15362);
+    			attr_dev(div17, "class", "section svelte-1chgxdf");
+    			add_location(div17, file, 490, 1, 15338);
+    			set_style(mark22, "font-size", "2.2rem");
+    			set_style(mark22, "color", "#595959");
+    			attr_dev(mark22, "class", "svelte-1chgxdf");
+    			add_location(mark22, file, 507, 4, 15965);
+    			attr_dev(mark23, "class", "svelte-1chgxdf");
+    			add_location(mark23, file, 507, 87, 16048);
+    			add_location(u7, file, 507, 136, 16097);
+    			add_location(u8, file, 507, 163, 16124);
+    			add_location(u9, file, 507, 186, 16147);
+    			set_style(h121, "font-size", "1.3rem");
+    			attr_dev(h121, "class", "svelte-1chgxdf");
+    			add_location(h121, file, 506, 3, 15929);
+    			if (!src_url_equal(img6.src, img6_src_value = "street3.png")) attr_dev(img6, "src", img6_src_value);
+    			attr_dev(img6, "alt", "home");
+    			set_style(img6, "width", "90%");
+    			set_style(img6, "padding-top", "20px");
+    			attr_dev(img6, "class", "svelte-1chgxdf");
+    			add_location(img6, file, 509, 3, 16188);
+    			add_location(u10, file, 511, 21, 16337);
+    			set_style(h122, "font-size", ".9rem");
+    			set_style(h122, "padding-top", "10px");
+    			attr_dev(h122, "class", "svelte-1chgxdf");
+    			add_location(h122, file, 510, 3, 16265);
+    			attr_dev(div18, "class", "text-wrap svelte-1chgxdf");
+    			set_style(div18, "top", "50%");
+    			add_location(div18, file, 505, 2, 15884);
+    			attr_dev(div19, "class", "section svelte-1chgxdf");
+    			add_location(div19, file, 504, 1, 15860);
+    			attr_dev(mark24, "class", "svelte-1chgxdf");
+    			add_location(mark24, file, 519, 74, 16507);
+    			set_style(h123, "font-size", "3rem");
+    			attr_dev(h123, "class", "svelte-1chgxdf");
+    			add_location(h123, file, 519, 3, 16436);
+    			attr_dev(div20, "class", "text-wrap svelte-1chgxdf");
+    			add_location(div20, file, 518, 2, 16408);
+    			attr_dev(div21, "class", "section svelte-1chgxdf");
+    			add_location(div21, file, 517, 1, 16384);
+    			attr_dev(select0, "class", "svelte-1chgxdf");
     			if (/*targetMuni*/ ctx[2] === void 0) add_render_callback(() => /*select0_change_handler*/ ctx[17].call(select0));
-    			add_location(select0, file, 380, 1, 11036);
-    			attr_dev(select1, "class", "svelte-cx9ob6");
+    			add_location(select0, file, 529, 4, 16656);
+    			attr_dev(select1, "class", "svelte-1chgxdf");
     			if (/*sourceMuni*/ ctx[3] === void 0) add_render_callback(() => /*select1_change_handler*/ ctx[18].call(select1));
-    			add_location(select1, file, 386, 1, 11248);
-    			attr_dev(div0, "class", "sidebar svelte-cx9ob6");
-    			add_location(div0, file, 378, 0, 11009);
+    			add_location(select1, file, 535, 4, 16886);
+    			attr_dev(div22, "class", "sidebar svelte-1chgxdf");
+    			add_location(div22, file, 527, 3, 16623);
     			attr_dev(input, "type", "checkbox");
-    			attr_dev(input, "class", "svelte-cx9ob6");
-    			add_location(input, file, 408, 2, 12003);
-    			attr_dev(span, "class", "slider round svelte-cx9ob6");
-    			add_location(span, file, 409, 2, 12075);
-    			attr_dev(label, "class", "switch svelte-cx9ob6");
-    			add_location(label, file, 407, 1, 11978);
-    			attr_dev(div1, "id", "density-legend");
-    			attr_dev(div1, "class", "legend svelte-cx9ob6");
-    			add_location(div1, file, 406, 0, 11936);
+    			attr_dev(input, "class", "svelte-1chgxdf");
+    			add_location(input, file, 557, 5, 17704);
+    			attr_dev(span, "class", "slider round svelte-1chgxdf");
+    			add_location(span, file, 558, 5, 17779);
+    			attr_dev(label, "class", "switch svelte-1chgxdf");
+    			add_location(label, file, 556, 4, 17676);
+    			attr_dev(div23, "id", "density-legend");
+    			attr_dev(div23, "class", "legend svelte-1chgxdf");
+    			add_location(div23, file, 555, 3, 17631);
     			attr_dev(dl, "id", "muni-tooltip");
-    			attr_dev(dl, "class", "info tooltip svelte-cx9ob6");
+    			attr_dev(dl, "class", "info tooltip svelte-1chgxdf");
     			dl.hidden = dl_hidden_value = /*hoveredId*/ ctx[7] === null;
-    			add_location(dl, file, 458, 0, 13829);
-    			attr_dev(div2, "class", "map svelte-cx9ob6");
-    			add_location(div2, file, 478, 1, 14358);
-    			attr_dev(div3, "class", "map-wrap");
-    			add_location(div3, file, 477, 0, 14334);
+    			add_location(dl, file, 607, 3, 19674);
+    			attr_dev(div24, "class", "map svelte-1chgxdf");
+    			add_location(div24, file, 625, 3, 20220);
+    			attr_dev(div25, "class", "map-wrap");
+    			add_location(div25, file, 526, 2, 16597);
+    			attr_dev(div26, "class", "section svelte-1chgxdf");
+    			add_location(div26, file, 525, 1, 16573);
+    			attr_dev(div27, "class", "fullpage svelte-1chgxdf");
+    			add_location(div27, file, 391, 0, 11303);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -66349,9 +66992,184 @@ var app = (function () {
     		m: function mount(target, anchor) {
     			insert_dev(target, head, anchor);
     			insert_dev(target, t0, anchor);
-    			insert_dev(target, div0, anchor);
-    			append_dev(div0, t1);
-    			append_dev(div0, select0);
+    			insert_dev(target, div27, anchor);
+    			append_dev(div27, div1);
+    			append_dev(div1, div0);
+    			append_dev(div0, h10);
+    			append_dev(h10, t1);
+    			append_dev(h10, mark0);
+    			append_dev(div27, t3);
+    			append_dev(div27, div3);
+    			append_dev(div3, div2);
+    			append_dev(div2, h11);
+    			append_dev(h11, t4);
+    			append_dev(h11, mark1);
+    			append_dev(h11, t6);
+    			append_dev(div2, t7);
+    			append_dev(div2, h12);
+    			append_dev(h12, t8);
+    			append_dev(h12, mark2);
+    			append_dev(h12, t10);
+    			append_dev(h12, mark3);
+    			append_dev(h12, t12);
+    			append_dev(h12, mark4);
+    			append_dev(h12, t14);
+    			append_dev(h12, mark5);
+    			append_dev(h12, t16);
+    			append_dev(div2, t17);
+    			append_dev(div2, h13);
+    			append_dev(h13, t18);
+    			append_dev(h13, mark6);
+    			append_dev(h13, t20);
+    			append_dev(div2, t21);
+    			append_dev(div2, h14);
+    			append_dev(h14, t22);
+    			append_dev(h14, mark7);
+    			append_dev(h14, t24);
+    			append_dev(h14, mark8);
+    			append_dev(h14, t26);
+    			append_dev(div3, t27);
+    			append_dev(div3, img0);
+    			append_dev(div27, t28);
+    			append_dev(div27, div5);
+    			append_dev(div5, div4);
+    			append_dev(div4, h15);
+    			append_dev(h15, t29);
+    			append_dev(h15, mark9);
+    			append_dev(h15, t31);
+    			append_dev(div4, t32);
+    			append_dev(div4, h16);
+    			append_dev(h16, t33);
+    			append_dev(h16, mark10);
+    			append_dev(h16, t35);
+    			append_dev(div4, t36);
+    			append_dev(div4, img1);
+    			append_dev(div4, t37);
+    			append_dev(div4, h17);
+    			append_dev(div27, t39);
+    			append_dev(div27, div7);
+    			append_dev(div7, div6);
+    			append_dev(div6, h18);
+    			append_dev(h18, t40);
+    			append_dev(h18, mark11);
+    			append_dev(h18, t42);
+    			append_dev(h18, mark12);
+    			append_dev(h18, t44);
+    			append_dev(div27, t45);
+    			append_dev(div27, div9);
+    			append_dev(div9, div8);
+    			append_dev(div8, h19);
+    			append_dev(h19, t46);
+    			append_dev(h19, mark13);
+    			append_dev(h19, t48);
+    			append_dev(div8, t49);
+    			append_dev(div8, img2);
+    			append_dev(div8, t50);
+    			append_dev(div8, h110);
+    			append_dev(h110, t51);
+    			append_dev(h110, mark14);
+    			append_dev(h110, t53);
+    			append_dev(div8, t54);
+    			append_dev(div8, h111);
+    			append_dev(h111, t55);
+    			append_dev(h111, mark15);
+    			append_dev(h111, t57);
+    			append_dev(div27, t58);
+    			append_dev(div27, div11);
+    			append_dev(div11, div10);
+    			append_dev(div10, h112);
+    			append_dev(h112, t59);
+    			append_dev(h112, mark16);
+    			append_dev(h112, t61);
+    			append_dev(div10, t62);
+    			append_dev(div10, h113);
+    			append_dev(div10, t64);
+    			append_dev(div10, img3);
+    			append_dev(div10, t65);
+    			append_dev(div10, h114);
+    			append_dev(div10, t67);
+    			append_dev(div10, h115);
+    			append_dev(div27, t69);
+    			append_dev(div27, div13);
+    			append_dev(div13, div12);
+    			append_dev(div12, h116);
+    			append_dev(h116, t70);
+    			append_dev(h116, mark17);
+    			append_dev(h116, t72);
+    			append_dev(div27, t73);
+    			append_dev(div27, div15);
+    			append_dev(div15, div14);
+    			append_dev(div14, h117);
+    			append_dev(h117, mark18);
+    			append_dev(h117, t75);
+    			append_dev(h117, mark19);
+    			append_dev(h117, t77);
+    			append_dev(h117, u0);
+    			append_dev(h117, t79);
+    			append_dev(h117, u1);
+    			append_dev(h117, t81);
+    			append_dev(div14, t82);
+    			append_dev(div14, img4);
+    			append_dev(div14, t83);
+    			append_dev(div14, h118);
+    			append_dev(h118, t84);
+    			append_dev(h118, u2);
+    			append_dev(h118, t86);
+    			append_dev(div27, t87);
+    			append_dev(div27, div17);
+    			append_dev(div17, div16);
+    			append_dev(div16, h119);
+    			append_dev(h119, mark20);
+    			append_dev(h119, t89);
+    			append_dev(h119, mark21);
+    			append_dev(h119, t91);
+    			append_dev(h119, u3);
+    			append_dev(h119, t93);
+    			append_dev(h119, u4);
+    			append_dev(h119, t95);
+    			append_dev(h119, u5);
+    			append_dev(h119, t97);
+    			append_dev(div16, t98);
+    			append_dev(div16, img5);
+    			append_dev(div16, t99);
+    			append_dev(div16, h120);
+    			append_dev(h120, t100);
+    			append_dev(h120, u6);
+    			append_dev(h120, t102);
+    			append_dev(div27, t103);
+    			append_dev(div27, div19);
+    			append_dev(div19, div18);
+    			append_dev(div18, h121);
+    			append_dev(h121, mark22);
+    			append_dev(h121, t105);
+    			append_dev(h121, mark23);
+    			append_dev(h121, t107);
+    			append_dev(h121, u7);
+    			append_dev(h121, t109);
+    			append_dev(h121, u8);
+    			append_dev(h121, t111);
+    			append_dev(h121, u9);
+    			append_dev(h121, t113);
+    			append_dev(div18, t114);
+    			append_dev(div18, img6);
+    			append_dev(div18, t115);
+    			append_dev(div18, h122);
+    			append_dev(h122, t116);
+    			append_dev(h122, u10);
+    			append_dev(h122, t118);
+    			append_dev(div27, t119);
+    			append_dev(div27, div21);
+    			append_dev(div21, div20);
+    			append_dev(div20, h123);
+    			append_dev(h123, t120);
+    			append_dev(h123, mark24);
+    			append_dev(h123, t122);
+    			append_dev(div27, t123);
+    			append_dev(div27, div26);
+    			append_dev(div26, div25);
+    			append_dev(div25, div22);
+    			append_dev(div22, t124);
+    			append_dev(div22, select0);
 
     			for (let i = 0; i < each_blocks_1.length; i += 1) {
     				if (each_blocks_1[i]) {
@@ -66360,8 +67178,8 @@ var app = (function () {
     			}
 
     			select_option(select0, /*targetMuni*/ ctx[2], true);
-    			append_dev(div0, t2);
-    			append_dev(div0, select1);
+    			append_dev(div22, t125);
+    			append_dev(div22, select1);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				if (each_blocks[i]) {
@@ -66370,27 +67188,26 @@ var app = (function () {
     			}
 
     			select_option(select1, /*sourceMuni*/ ctx[3], true);
-    			append_dev(div0, t3);
-    			if_blocks[current_block_type_index].m(div0, null);
-    			insert_dev(target, t4, anchor);
-    			insert_dev(target, div1, anchor);
-    			append_dev(div1, label);
+    			append_dev(div22, t126);
+    			if_blocks[current_block_type_index].m(div22, null);
+    			append_dev(div25, t127);
+    			append_dev(div25, div23);
+    			append_dev(div23, label);
     			append_dev(label, input);
     			input.checked = /*visToggle*/ ctx[4];
-    			append_dev(label, t5);
+    			append_dev(label, t128);
     			append_dev(label, span);
-    			append_dev(div1, t6);
-    			if_block1.m(div1, null);
-    			insert_dev(target, t7, anchor);
-    			if (if_block2) if_block2.m(target, anchor);
-    			insert_dev(target, t8, anchor);
-    			insert_dev(target, dl, anchor);
+    			append_dev(div23, t129);
+    			if_block1.m(div23, null);
+    			append_dev(div25, t130);
+    			if (if_block2) if_block2.m(div25, null);
+    			append_dev(div25, t131);
+    			append_dev(div25, dl);
     			if (if_block3) if_block3.m(dl, null);
     			/*dl_binding*/ ctx[21](dl);
-    			insert_dev(target, t9, anchor);
-    			insert_dev(target, div3, anchor);
-    			append_dev(div3, div2);
-    			/*div2_binding*/ ctx[22](div2);
+    			append_dev(div25, t132);
+    			append_dev(div25, div24);
+    			/*div24_binding*/ ctx[22](div24);
     			current = true;
 
     			if (!mounted) {
@@ -66486,7 +67303,7 @@ var app = (function () {
     				}
 
     				transition_in(if_block0, 1);
-    				if_block0.m(div0, null);
+    				if_block0.m(div22, null);
     			}
 
     			if (dirty[0] & /*visToggle*/ 16) {
@@ -66499,7 +67316,7 @@ var app = (function () {
 
     				if (if_block1) {
     					if_block1.c();
-    					if_block1.m(div1, null);
+    					if_block1.m(div23, null);
     				}
     			}
 
@@ -66509,7 +67326,7 @@ var app = (function () {
     				} else {
     					if_block2 = create_if_block_1(ctx);
     					if_block2.c();
-    					if_block2.m(t8.parentNode, t8);
+    					if_block2.m(div25, t131);
     				}
     			} else if (if_block2) {
     				if_block2.d(1);
@@ -66545,22 +67362,15 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(head);
     			if (detaching) detach_dev(t0);
-    			if (detaching) detach_dev(div0);
+    			if (detaching) detach_dev(div27);
     			destroy_each(each_blocks_1, detaching);
     			destroy_each(each_blocks, detaching);
     			if_blocks[current_block_type_index].d();
-    			if (detaching) detach_dev(t4);
-    			if (detaching) detach_dev(div1);
     			if_block1.d();
-    			if (detaching) detach_dev(t7);
-    			if (if_block2) if_block2.d(detaching);
-    			if (detaching) detach_dev(t8);
-    			if (detaching) detach_dev(dl);
+    			if (if_block2) if_block2.d();
     			if (if_block3) if_block3.d();
     			/*dl_binding*/ ctx[21](null);
-    			if (detaching) detach_dev(t9);
-    			if (detaching) detach_dev(div3);
-    			/*div2_binding*/ ctx[22](null);
+    			/*div24_binding*/ ctx[22](null);
     			mounted = false;
     			run_all(dispose);
     		}
@@ -66647,6 +67457,14 @@ var app = (function () {
 
     	onMount(async function () {
     		const initialState = { lng, lat, zoom };
+    		const container = document.querySelector('.fullpage');
+    		document.querySelectorAll('.section');
+
+    		container.addEventListener('wheel', event => {
+    			event.preventDefault();
+    			const delta = event.deltaY;
+    			container.scrollBy({ top: delta, behavior: 'smooth' });
+    		});
 
     		data = await csv("housing_census_municipalities_compliance.csv", d => ({
     			...d,
@@ -66976,7 +67794,7 @@ var app = (function () {
     		});
     	}
 
-    	function div2_binding($$value) {
+    	function div24_binding($$value) {
     		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
     			mapContainer = $$value;
     			$$invalidate(5, mapContainer);
@@ -67124,7 +67942,7 @@ var app = (function () {
     		click_handler,
     		input_change_handler,
     		dl_binding,
-    		div2_binding
+    		div24_binding
     	];
     }
 
