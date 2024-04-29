@@ -1,5 +1,5 @@
 {
-  "name": "svelte-deploy-with-github-actions",
+  "name": "policy-reality-deploy",
   "version": "1.0.0",
   "scripts": {
     "build": "rollup -c",
@@ -16,7 +16,7 @@
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-svelte": "^7.0.0",
     "rollup-plugin-terser": "^7.0.0",
-    "svelte": "^3.0.0"
+    "svelte": "^3.55.0"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.6.4",

@@ -564,7 +564,10 @@
 		transition-duration: 200ms;
 		transition-property: opacity, visibility;
 
-		
+		&[hidden]:not(:hover, :focus-within) {
+			opacity: 0;
+			visibility: hidden;
+		}
 	}
 
 	dt,
