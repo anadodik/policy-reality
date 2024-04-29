@@ -1,0 +1,32 @@
+{
+  "name": "svelte-deploy-with-github-actions",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv public --no-clear",
+    "deploy": "npm run build && node ./scripts/gh-pages.js"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "gh-pages": "^3.2.3",
+    "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-svelte": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "svelte": "^3.0.0"
+  },
+  "dependencies": {
+    "@floating-ui/dom": "^1.6.4",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@turf/turf": "^6.5.0",
+    "d3": "^7.9.0",
+    "fa-svelte": "^3.1.0",
+    "mapbox-gl": "^3.3.0",
+    "minisearch": "^6.3.0",
+    "proj4": "^2.11.0",
+    "sirv-cli": "^1.0.0"
+  }
+}
