@@ -10,6 +10,8 @@
 	import * as turf from "@turf/turf";
 	import MiniSearch from "minisearch";
 	import { computePosition, autoPlacement, offset } from "@floating-ui/dom";
+	import { regressionLinear } from 'd3-regression';
+    import { faToiletPaper } from "@fortawesome/free-solid-svg-icons";
 	
 	let icon = faXmark;
 	let map;
@@ -27,7 +29,11 @@
 	let minisearch;
 	let data;
 	let densityData;
+	let densityData2;
 	let dataLookup = {};
+	let avgTotalDensity;
+	let totalArea = 0;
+	let totalPop = 0;
 	let geography;
 	$: visToggle = true;
 	$: visFeature = "dwellingDensity";
@@ -50,7 +56,12 @@
 	$: console.log(sourceMuni);
 	$: {
 		if (targetMuni && sourceMuni) {
-			counterfactualHousing = Math.floor(dataLookup[targetMuni].area * dataLookup[sourceMuni].density) - dataLookup[targetMuni].pop;
+			if (targetMuni === "total") {
+				counterfactualHousing = Math.floor(totalArea * dataLookup[sourceMuni].density) - totalPop;	
+			}
+			else {
+				counterfactualHousing = Math.floor(dataLookup[targetMuni].area * dataLookup[sourceMuni].density) - dataLookup[targetMuni].pop;
+			}
 		} else {
 			counterfactualHousing = null;
 		}
@@ -64,8 +75,8 @@
 		const initialState = { lng: lng, lat: lat, zoom: zoom };
 		const container = document.querySelector('.fullpage');
 		const items = document.querySelectorAll('.section');
-
-		container.addEventListener('wheel', (event) => {
+		
+		container.addEventListener('DOMMouseScroll', (event) => {
 		event.preventDefault();
 		const delta = event.deltaY;
 
@@ -99,15 +110,132 @@
 				};
 			});
 		});
-		// densityData.forEach((datum) => {
-		// 	console.log(densityData)
-		// 	dataLookup[datum.muni_id] = {
-		// 		...dataLookup[datum.muni_id],
-		// 		avg_zoned_density: datum.avg_zoned_density,
-		// 		avg_actual_density: datum.avg_actual_density,
-		// 	};
-		// });
-		// console.log(JSON.stringify(dataLookup));
+
+		// REG PLOT ##########################################
+
+		densityData2 = await d3.csv("agg_density.csv", d => ({
+			municipal: d.municipal,
+			avg_zoned_density: +d.avg_zoned_density,
+			density_2020: +d.density_2020
+		}));
+
+		// Calculate log2 for density values
+		densityData2.forEach(d => {
+			d.log_avg_zoned_density = Math.log10(d.avg_zoned_density);
+			d.log_density_2020 = Math.log10(d.density_2020);
+		});
+
+		const svgWidth = 800;
+		const svgHeight = 450;
+		const margins = { top: 20, right: 20, bottom: 70, left: 70 };
+
+		const svg = d3.select("#chart")
+                  .append("svg")
+                  .attr("width", svgWidth)
+                  .attr("height", svgHeight);
+
+		// Define scales based on log10 values
+		const x = d3.scaleLinear()
+					.domain([-.2, 2]) // Adjusted to fit data
+					.range([margins.left, svgWidth - margins.right]);
+		const y = d3.scaleLinear()
+					.domain([2, 5]) // Adjusted to fit data
+					.range([svgHeight - margins.bottom, margins.top]);
+
+		// Define axes with custom tick labels
+		const xAxis = d3.axisBottom(x).tickValues([0, 1, 2, 3]).tickPadding(10);
+		const yAxis = d3.axisLeft(y).tickValues([2, 3, 4, 5]).tickPadding(5);
+
+		svg.append("g")
+		.attr("transform", `translate(0,${svgHeight - margins.bottom})`)
+		.call(xAxis)
+		.selectAll(".tick text")
+		.call(createSuperscript, "10"); // Updated to use log10
+
+		svg.append("g")
+		.attr("transform", `translate(${margins.left},0)`)
+		.call(yAxis)
+		.selectAll(".tick text")
+		.call(createSuperscript, "10"); // Updated to use log10
+
+		function createSuperscript(selection, base) {
+		selection.each(function(d) {
+			const text = d3.select(this);
+			const parts = `${base}^${Math.round(d)}`.split("^");
+			text.text('');  
+			text.append('tspan')
+				.attr('font-size', '18px')
+				.text(parts[0]);
+			text.append('tspan')
+				.attr('baseline-shift', 'super')
+				.attr('font-size', '12px')
+				.text(parts[1]);
+		});
+		}
+
+		// Tooltip setup
+		const tooltip = d3.select("body").append("div")
+						.attr("class", "tooltip")
+						.style("position", "absolute")
+						.style("visibility", "hidden")
+						.style("background", "white")
+						.style("border", "solid 1px black")
+						.style("padding", "5px");
+
+		// Draw points and attach mouse events for tooltips
+		svg.selectAll(".point")
+			.data(densityData2)
+			.enter()
+			.append("circle")
+			.attr("class", "point")
+			.attr("cx", d => x(d.log_avg_zoned_density))
+			.attr("cy", d => y(d.log_density_2020))
+			.attr("r", 5)
+			.on("mouseover", (event, d) => {
+				tooltip.style("visibility", "visible")
+						.html(`<b>Municipality</b>: ${d.municipal}<br/><b>Census Density 2020 (sq mi)</b>: ${d.density_2020}<br/><b>Avg Zoned Density</b>: ${d.avg_zoned_density.toFixed(2)}`);
+			})
+			.on("mousemove", event => {
+				tooltip.style("top", (event.pageY - 10) + "px")
+						.style("left", (event.pageX + 10) + "px");
+			})
+			.on("mouseout", () => {
+				tooltip.style("visibility", "hidden");
+			});
+
+		// Compute and draw regression line
+		const reg = regressionLinear()
+					.x(d => d.log_avg_zoned_density)
+					.y(d => d.log_density_2020);
+		const line = reg(densityData2);
+
+		svg.append("path")
+			.datum(line)
+			.attr("fill", "none")
+			.attr("stroke", "#FF6B00")
+			.attr("stroke-width", 4)
+			.attr("d", d3.line()
+							.x(d => x(d[0]))
+							.y(d => y(d[1])));
+
+		// Adding x-axis title
+		svg.append("text")
+			.style("font-weight", "bold")
+			.attr("text-anchor", "end")
+			.attr("x", 500)
+			.attr("y", svgHeight - 25)
+			.text("Avg. Zoned Density");
+
+		// Adding y-axis title
+		svg.append("text")
+			.style("font-weight", "bold")	
+			.attr("text-anchor", "end")
+			.attr("transform", "rotate(-90)")
+			.attr("y", 15)
+			.attr("x", -(margins.top + 30))
+			.text("Census Density (Population / Area)");
+		
+		// REG PLOT ##########################################
 
 		geography = await d3.json(
 			"ma_municipalities.geojson",
@@ -167,7 +295,11 @@
 				dataLookup[feature.properties.muni_id]["pop"] = pop;
 				dataLookup[feature.properties.muni_id]["density"] = density;
 				dataLookup[feature.properties.muni_id]["geometry"] = feature.geometry;
+				totalArea += (+area);
+				totalPop += (+pop);
+
 			});
+			avgTotalDensity = totalArea / totalPop;
 			features = features.sort((a,b) => (a.properties.municipal > b.properties.municipal) ? 1 : ((b.properties.municipal > a.properties.municipal) ? -1 : 0))
 			minisearch = new MiniSearch({
 				fields: ["municipal", "muni_id"],
@@ -188,6 +320,8 @@
 			style: `mapbox://styles/mapbox/light-v9`,
 			center: [initialState.lng, initialState.lat],
 			zoom: initialState.zoom,
+			maxZoom: 11.5,
+			minZoom: 8.5,
 			transition: {
 				"duration": 1200,
 				"delay": 0
@@ -270,6 +404,11 @@
 				// hoveredProperties = null;
 				hoveredId = null;
 			});
+			map?.style.stylesheet.layers.forEach(function(layer) {
+				if (layer.type === 'symbol') {
+					map.setLayoutProperty(layer.id,"visibility", "none");
+				}
+			});
 
 			features.forEach(function (feature) {
 				let centroid = turf.centerOfMass(feature.geometry);
@@ -307,12 +446,7 @@
 		} else {
 			cmap = zonedDensityCmap;
 		}
-		if (sourceMuni && targetMuni) {
-			map.style.stylesheet.layers.forEach(function(layer) {
-				if (layer.type === 'symbol') {
-					map.setLayoutProperty(layer.id,"visibility", "none");
-				}
-			});
+		if (sourceMuni && targetMuni && targetMuni !== "total") {
 			let geometry = turf.union(
 				dataLookup[sourceMuni]["geometry"],
 				dataLookup[targetMuni]["geometry"],
@@ -354,12 +488,51 @@
 				]
 			);
 		}
-		else {
-			map.style.stylesheet.layers.forEach(function(layer) {
-				if (layer.type === 'symbol') {
-					map.setLayoutProperty(layer.id, "visibility", "visible");
-				}
+		else if (sourceMuni && targetMuni === "total") {
+			let geometry = dataLookup[sourceMuni]["geometry"];
+			map.fitBounds(turf.bbox(geometry), {
+				padding: { top: 100, bottom: 100, left: 100, right: 100},
+				easing: (t) => {return t*t*t},
+				duration: 1000,
 			});
+			map?.setPaintProperty(
+				'mass-layer',
+				'fill-color',
+				[
+					"step",
+					[
+						"case",
+						// ["==", ["get", "muni_id"], targetMuni], ["get", visFeature], 
+						["==", ["get", "muni_id"], sourceMuni], ["get", visFeature], 
+						-1
+					],
+					"#DDDDDD",0,...cmap
+				]
+			);
+			map?.setPaintProperty(
+				"mass-layer",
+				"fill-opacity",
+				[
+					"*", [
+						"case",
+						["boolean", ["feature-state", "hover"], false],
+						1,
+						0.9,
+					], [
+						"case",
+						// ["==", ["get", "muni_id"], targetMuni], 1, 
+						["==", ["get", "muni_id"], sourceMuni], 1, 
+						0.5,
+					]
+				]
+			);
+		}
+		else {
+			// map.style.stylesheet.layers.forEach(function(layer) {
+			// 	if (layer.type === 'symbol') {
+			// 		map.setLayoutProperty(layer.id, "visibility", "visible");
+			// 	}
+			// });
 			map.fitBounds(turf.bbox(geography), {
 				padding: { top: 10, bottom: 25, left: 15, right: 5 },
 			});
@@ -390,62 +563,98 @@
 
 
 <div class="fullpage">
+
 	<div class="section">
-		<div class="text-wrap">
-			<h1 style="font-size: 6rem;">Policy ---> <mark>Reality</mark>
+		<div class="text-wrap" style="top: 50%">
+			<h1 style="font-size: 6rem;">Policy &#10230; <mark>Reality</mark>
+			</h1>
+			<h1 style="font-size: 7rem; "> </h1>
+			<h1 style="font-size: 1.5rem; position: absolute; top: 51%;"> April Anlage, Ana Dodik, Gabriel Manso, Beatriz Yankelevich
+			</h1>
+			<h1 style="font-size: 1rem; position: absolute; bottom: 20px;">This project was developed with guidance and feedback from the 
+				<a href="https://www.mapc.org/">Metropolitan Area Planning Commission (MAPC)</a>.
 			</h1>
 		</div>
-
 	</div>
 
 	<div class="section">
 		<div class="text-wrap"  style="top: 35%">
-			<h1 style="font-size: 3rem;">Massachusetts has the <mark>5th most expensive</mark> housing prices in the country.</h1>
-			<h1>
+			<h1 style="font-size: 3rem;">Massachusetts has the <mark>5th most expensive</mark> housing prices in the country.<sup>1</sup></h1>
+			<h1 style="font-size: 1.6rem;">
 				Nearly <mark>half</mark> of the state’s renters are <mark>rent-burdened</mark> while a
-				<mark>quarter</mark> are <mark>severely rent-burdened</mark>.
+				<mark>quarter</mark> are <mark>severely rent-burdened.</mark><sup>2</sup>
 			</h1>
-			<h1 style="font-size: 1.6rem;">Our housing market is extremely saturated with <mark>rental vacancy rates at just 2.4%</mark>.
+			<h1 style="font-size: 1.6rem;">Our housing market is extremely saturated with <mark>rental vacancy rates at just 2.4%.</mark><sup>3</sup> This low vacancy rate is associated with higher prices.
 			</h1>
-			<h1 style="font-size: 1.6rem;">There is estimated to be a shortage of <mark>125,000-200,000 housing units by 2030</mark>, with <mark>35,000-110,000 new
-				units</mark> required just to meet current demand.
+			<h1 style="font-size: 1.5rem;">There is estimated to be a shortage of <mark>125,000-200,000 housing units by 2030</mark>, with <mark>35,000-110,000 new
+				units</mark> required just to meet current demand.<sup>4</sup>
 			</h1>
 
 		</div>
-		<img src="home.png" alt="home" style="position: absolute; bottom: 0; right: 0; width: 35%;">
+		<figure>
+			<img src="home.png" alt="home" style="position: absolute; bottom: 0; right: 0; width: 35%;">
 
+			<figcaption style="font-size: 0.8rem; position: absolute; bottom: 0px; right: 50px;">SOURCE: <a href="https://apps.bostonglobe.com/2023/10/special-projects/spotlight-boston-housing/single-family-zoning/?s_campaign=audience:reddit">Globe reporting</a>. Illustrations by Guillaume Kurkdjian.</figcaption>
+		</figure>
+		<h1 style="position: absolute; bottom: 0px; left: 15px;">
+			<p id="footnote-1" style="font-size: 0.8rem; text-align: left" >
+				References: <br><br>
+				<sup>&emsp; 1</sup><i><a href="https://www.forbes.com/home-improvement/features/states-with-highest-home-prices/">Forbes</a></i>, <i><a href="https://www.forbes.com/advisor/mortgages/average-rent-by-state/">Forbes</a></i><br>
+				<sup>&emsp; 2</sup><i><a href="https://www.jchs.harvard.edu/ARH_2017_cost_burdens_by_state_total">Joint Center for Housing Studies of Harvard University</a></i><br>
+				<sup>&emsp; 3</sup><i><a href="https://www.mass.gov/doc/future-of-work-in-massachusetts-report/download">Mass.gov</a></i><br>
+				<sup>&emsp; 4</sup><i><a href="https://www.mhp.net/news/2024/construction-costs-and-affordability">The Massachusetts Housing Partnership</a></i>
+			</p>
+		</h1>
 	</div>
 	<div class="section">
 		<div class="text-wrap"  style="top: 50%">
-			<h1 style="font-size: 1.85rem;">To mitigate the housing crisis, we need to build denser housing and use existing housing stock <mark>as efficiently as possible</mark>.
+			<h1 style="font-size: 2rem;">To mitigate the housing crisis, we need to build denser housing and use existing housing stock <mark>as efficiently as possible</mark>.
 			</h1>
 			<h1 style="font-size: 1.4rem;">
 				One way to encourage this is to ensure that local laws allow for <mark>higher density housing*</mark>.
 			</h1>
-
-			<img src="home_2.png" alt="home" style="width: 70%; padding-top: 50px;">
-			<h1 style="font-size: .7rem;">
-				*Housing density can be defined as the average number of dwelling units per acre (du/ac).
+			<figure>
+				<img src="home_2.png" alt="home" style="width: 70%; padding-top: 50px;">
+				<figcaption style="font-size: 0.8rem;">SOURCE: <a href="https://apps.bostonglobe.com/2023/10/special-projects/spotlight-boston-housing/single-family-zoning/?s_campaign=audience:reddit">Globe reporting</a>. Illustrations by Guillaume Kurkdjian.</figcaption>
+			</figure>
+			<h1 style="font-size: 1.3rem;">
+				<mark>*</mark>Housing density can be defined as the average number of dwelling units per acre (du/ac).
 			</h1>
 		</div>
+	</div>
 
+	<div class="section">
+		<div class="text-wrap"  style="top: 50%">
+			<h1 style="font-size: 2.2rem;">Can zoning for <mark>denser housing</mark> really make a difference?
+			</h1>
+			<h1 style="font-size: 1.4rem;">
+				Let's take a look at the relationship between zoned housing density and population density (number of people per square mile) in the Boston area.
+			</h1>
+			<figure>
+				<div id="chart"></div>		
+				<figcaption>Higher density zoning is highly correlated with higher population density - more dwelling units can house more people!</figcaption>
+			</figure>
+		</div>
 	</div>
 	<div class="section">
 		<div class="text-wrap" style="font-size: 1.5rem;">
-			<h1>How might <mark>zoning</mark> allow for more <mark>density</mark>?</h1>
+			<h1><i>How</i> might <mark>zoning</mark> allow for more <mark>density</mark>?</h1>
 		</div>
 
 	</div>
 	<div class="section">
 		<div class="text-wrap" style="top: 50%">
-			<h1>One example of increasing neighborhood density is building an <mark>accessory dwelling unit (ADU)</mark>.
+			<h1 style="font-size: 2.5rem;">One example of increasing neighborhood density is building an <mark>accessory dwelling unit (ADU)</mark>.
 			</h1>
-			<img src="houses.png" alt="home" style="width: 75%; padding-top: 20px; padding-bottom: 20px;">
+			<figure>
+				<img src="houses.png" alt="home" style="width: 85%; padding-top: 20px; padding-bottom: 20px;">
+				<figcaption>Example ADU configurations, courtesy of <a href="https://www.bostonplans.org/zoning/zoning-initiatives/citywide-adu-zoning">Boston Planning and Development Agency</a></figcaption>
+			</figure>
 			<h1 style="font-size: 1.3rem;">
 				Sometimes called “granny flats”, ADU’s can introduce some <mark>gentle density</mark> into a neighborhood and
-				often increase property values. They can allow for multi-generational living or even be rented out.
+				often increase property values, even allowing for multi-generational living.
 			</h1>
-			<h1 style="font-size: 2.05rem;">ADU’s are often <mark>prohibited by local laws</mark>, but new laws to allow ADU’s have recently been adopted in
+			<h1 style="font-size: 1.6rem;">ADU’s are often <mark>prohibited by local laws</mark>, but new laws to allow ADU’s have recently been adopted in
 				places like Somerville!
 			</h1>
 
@@ -453,17 +662,18 @@
 	</div>
 	<div class="section">
 		<div class="text-wrap" style="top: 50%">
-			<h1 style="font-size: 1.5rem;">
+			<h1 style="font-size: 2.5rem;">
 				Another example of density-friendly adaptations are <mark>single family home conversions</mark>.
 			</h1>
-			<h1 style="font-size: 1.5rem;">
-				This involves renovating a single house into multiple individual units.
+
+			<figure>
+				<img src="site_plan_condo.jpeg" alt="home" style="width: 60%;">
+				<figcaption>Example layout of a multi-unit conversion, courtesy of <a href="https://living-little.mapc.org/sfc#select">MAPC</a>. For more information see <a href="https://living-little.mapc.org/">Living Little</a>.</figcaption>
+			</figure>
+			<h1 style="font-size: 1.4rem;">
+				This involves renovating a single house into <mark>multiple individual units</mark>, often leaving the exterior of the home to blend right in with the rest of the neighborhood.
 			</h1>
-			<img src="site_plan_condo.jpeg" alt="home" style="width: 65%;">
-			<h1  style="font-size: 1rem; padding-top: 20px;">
-				These homes often blend right in with the rest of the neighborhood, even preserving some historic homes.
-			</h1>
-			<h1 style="font-size: 1rem;">
+			<h1 style="font-size: 1.4rem;">
 				In an area that is zoned for single family homes only, this type of conversion would not be possible because it would exceed the allowable dwelling units per acre. 
 			</h1>
 
@@ -471,17 +681,20 @@
 	</div>
 	<div class="section">
 		<div class="text-wrap" style="font-size: 1.5rem;">
-			<h1>What do different levels of <mark>housing density</mark> look like in the Boston area?</h1>
+			<h1><i>What</i> do different levels of <mark>housing density</mark> look like in the Boston area?</h1>
 		</div>
 
 	</div>
 	<div class="section">
 		<div class="text-wrap" style="top: 50%;">
-			<h1 style="font-size: 1.3rem;">
-				<mark style="font-size: 2.2rem; color: #595959;">Milton</mark> is an example of <mark>low-density housing</mark> made up of <u>single-family</u> homes with <u>large yards</u>. 
+			<h1 style="font-size: 2rem;">
+				<mark style="font-size: 3rem; color: #595959;">Milton</mark> is an example of <mark>low-density housing</mark> made up of <u>single-family</u> homes with <u>large yards</u>. 
 			</h1>
-			<img src="street1.png" alt="home" style="width: 90%; padding-top: 20px;">
-			<h1 style="font-size: .9rem;  padding-top: 10px;">
+			<div style="display: flex; flex-direction: row; justify-content: space-around; width: 100%;">
+				<iframe style="width=80%; border:0;" title="Google Street View of 79 Martin Rd, Milton, MA" src="https://www.google.com/maps/embed?pb=!4v1715550973907!6m8!1m7!1sXkxvpFyODhXoZB-sDORKpA!2m2!1d42.24790274705648!2d-71.07513553031318!3f191.58049358164135!4f-0.6293602852082643!5f0.7820865974627469" width="720" height="420" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+				<img src="4.png" alt="milton street view" style="max-width: 20%; width: auto; height: auto; padding-top: 20px; object-fit: contain;">
+			</div>
+			<h1 style="font-size: 1rem;  padding-top: 10px;">
 				Average density: <u>1.2 du/ac</u>.
 			</h1>
 
@@ -490,25 +703,33 @@
 
 	<div class="section">
 		<div class="text-wrap" style="top: 50%;">
-			<h1 style="font-size: 1.3rem;">
-				<mark style="font-size: 2.2rem; color: #595959;">Waltham</mark> is an example of <mark>medium-density housing</mark>, with a mix of <u>single-family</u> homes and <u>gentle density</u> like <u>duplexes</u>. 
-			</h1>
-			<img src="street2.png" alt="home" style="width: 90%; padding-top: 20px;">
-			<h1 style="font-size: .9rem;  padding-top: 10px;">
-				Average density: <u>2.2 du/ac</u>.
+			<h1 style="font-size: 1.8rem;">
+				<mark style="font-size: 3rem; color: #595959;">Waltham</mark> is an example of <mark>medium-density housing</mark>, with a mix of <u>single-family</u> homes and <u>gentle density</u> like <u>duplexes</u>. 
 			</h1>
 
+			<div style="display: flex; flex-direction: row; justify-content: space-around; width: 100%;">
+				<iframe style="width=80%; border:0;" title="Google Street View of 96 Washington Ave, Waltham, MA" src="https://www.google.com/maps/embed?pb=!4v1715551761255!6m8!1m7!1s_xYDFfIUkZc07subaRg7iQ!2m2!1d42.36222676161471!2d-71.23463010836673!3f359.4449887292482!4f1.978223956913837!5f0.7820865974627469" width="720" height="420" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+				<img src="5.png" alt="milton street view" style="max-width: 20%; width: auto; height: auto; padding-top: 20px; object-fit: contain;">
+			</div>
+
+			<h1 style="font-size: 1rem;  padding-top: 10px;">
+				Average density: <u>2.2 du/ac</u>.
+			</h1>
 		</div>
 	</div>
 
 
 	<div class="section">
 		<div class="text-wrap" style="top: 50%;">
-			<h1 style="font-size: 1.3rem;">
-				<mark style="font-size: 2.2rem; color: #595959;">Cambridge</mark> is an example of <mark>high-density housing</mark>, with a mix of <u>multi-family</u> homes, <u>apartments</u>, and <u>mixed-use buildings</u>. 
+			<h1 style="font-size: 1.7rem;">
+				<mark style="font-size: 3rem; color: #595959;">Cambridge</mark> is an example of <mark>high-density housing</mark>, with a mix of <u>multi-family</u> homes, <u>apartments</u>, and <u>mixed-use buildings</u>. 
 			</h1>
-			<img src="street3.png" alt="home" style="width: 90%; padding-top: 20px;">
-			<h1 style="font-size: .9rem;  padding-top: 10px;">
+			<div style="display: flex; flex-direction: row; justify-content: space-around; width: 100%;">
+				<iframe style="width=80%; border:0;" title="Google Street View of 61 Ellery St, Cambridge, MA" src="https://www.google.com/maps/embed?pb=!4v1715551866278!6m8!1m7!1sb4TU6DOnZwhFyh5kU5nbPw!2m2!1d42.37230200534842!2d-71.11002547405533!3f280.91570157159566!4f4.94838481201981!5f0.7820865974627469" width="720" height="420" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+				<img src="6.png" alt="milton street view" style="max-width: 20%; width: auto; height: auto; padding-top: 20px; object-fit: contain;">
+			</div>
+
+			<h1 style="font-size: 1rem;  padding-top: 10px;">
 				Average density: <u>3.4 du/ac</u>.
 			</h1>
 
@@ -520,14 +741,15 @@
 			<h1 style="font-size: 3rem;">How many more people could we house if we <mark>up-zoned</mark> Massachusetts?
 			</h1>
 		</div>
-
 	</div>
 
 	<div class="section">
 		<div class="map-wrap">
+			<div class="map-content">
 			<div class="sidebar">
 				If
 				<select bind:value={targetMuni} on:change={paintMap}>
+					<option value="total">all of Metro Boston</option>
 					{#each features as feature}
 						<option value={feature.properties.muni_id}>{feature.properties.municipal}</option>
 					{/each}
@@ -540,9 +762,9 @@
 				</select>
 				{#if counterfactualHousing}
 					{#if counterfactualHousing >= 0}
-						we would <b>house {counterfactualHousing}</b> more people.
+						we would <span style="color: #daa520"><b>house {counterfactualHousing}</b></span> more people.
 					{:else}
-						we would <b>displace {-counterfactualHousing}</b> people.
+						we would <span style="color: #daa520"><b>displace {-counterfactualHousing}</b></span> people.
 					{/if}
 					<button type="button" id="resetButton" on:click={()=>{targetMuni = null; sourceMuni = null; paintMap()}}>
 						<Icon class="resetIcon" icon={icon}></Icon>
@@ -580,17 +802,26 @@
 				</div>
 				{/if}
 			</div>
-
-			{#if dataLookup != {} && sourceMuni && targetMuni}
+			
+			
+			{#if dataLookup != {} && ((sourceMuni && targetMuni) || (hoveredId !== null))}
 				<svg width="100%" height="100vh">
 					<style>
 						.text {
 							font: 16px sans-serif;
+							stroke: oklch(20% 0 0);
+							font-weight: 700;
+							fill: oklch(100% 0 0);
+							stroke-width: 0.8px;
+    						stroke-linecap: butt;
 						}
 					</style>
 						{#key mapViewChanged}
 							{#each centroids as centroid}
-								{#if centroid.properties.muni_id == sourceMuni || centroid.properties.muni_id == targetMuni}
+								{#if centroid.properties.muni_id === sourceMuni 
+								|| (centroid.properties.muni_id === targetMuni && targetMuni !== "total")
+								|| (hoveredId !== null && centroid.properties.muni_id === hoveredProperties.muni_id)
+								}
 									<text
 										class="text"
 										dominant-baseline="middle"
@@ -625,18 +856,38 @@
 			</dl>
 			<div class="map" bind:this={mapContainer} />
 		</div>
-
+		</div>
 	</div>
 </div>
 
 <style>
+	.map-wrap {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+	}
+
+	.map-content {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 90%;
+		height: 90%;
+	}
+
 	.map {
 		position: absolute;
 		width: 100%;
 		height: 100%;
+		border-radius: 2%;
+		box-shadow: 0px 0px 5px oklch(50% 0 0);		
 	}
 	svg {
-		background-color: rgb(35 55 75 / 2%);
+		background-color: rgb(0, 0, 0 / 0%);
 		color: #fff;
 		padding: 0 0 0 0;
 		font-family: monospace;
@@ -644,21 +895,10 @@
 		position: absolute;
 		top: 0;
 		left: 0;
-		border: 2px dashed #daa520;
+		/* border: 2px dashed #daa520; */
 		pointer-events: none;
 	}
 
-	svg circle {
-		color: #fff;
-		padding: 0 0 0 0;
-		font-family: monospace;
-		z-index: 1;
-		position: absolute;
-		top: 0;
-		left: 0;
-		border: 2px dashed rgb(218, 165, 32 / 50%);
-		pointer-events: none;
-	}
 	.sidebar {
 		background-color: rgb(35 55 75 / 90%);
 		color: #fff;
@@ -670,6 +910,7 @@
 		left: 0;
 		margin: 12px;
 		border-radius: 4px;
+		box-shadow: 0px 0px 5px oklch(50% 0 0);
 	}
 
 	.sidebar select {
@@ -702,7 +943,7 @@
 		margin: 12px;
 		
 		display: grid;
-		grid-auto-columns: 8em;
+		grid-auto-columns: 10em;
 		grid-auto-flow: column;
 		z-index: 3;
 		background-color: rgb(255 255 255 / 100%);
@@ -910,7 +1151,10 @@
 		font-size: 1.5rem;
 		font-family: 'Arial';
 	}
-
+	.tooltip {
+		font-size: 12px;
+		color: #333;
+	}
 	@media screen and (max-width: 600px) {
 		.text-wrap p {
 			width: 80%;
@@ -927,5 +1171,15 @@
 	@keyframes scroll {
 	0% { transform: translateY(0); }
 	100% { transform: translateY(-100%); }
+	}
+
+	figcaption {
+	background-color: none;
+	color: #595959;
+	font-family: 'Arial';
+	font-style: italic;
+	padding: 2px;
+	text-align: center;
+	font-size: 1rem
 	}
 </style>
