@@ -784,21 +784,21 @@
 				<div on:outrostart={e => e.target.classList.add('isFading')}
 					on:introstart={e => e.target.classList.remove('isFading')}>
 					<h4>Density</h4> <p>(dwelling units per acre)</p>
-					<div><span style="background-color: #a8dbd9"></span>0.00-1.13</div>
-					<div><span style="background-color: #85c4c9"></span>1.13-1.22</div>
-					<div><span style="background-color: #68abb8"></span>1.22-1.38</div>
-					<div><span style="background-color: #4f90a6"></span>1.38-1.63</div>
-					<div><span style="background-color: #3b738f"></span>1.63-3.40</div>
+					<div><span class="legend-item" style="background-color: #a8dbd9"></span>0.00-1.13</div>
+					<div><span class="legend-item" style="background-color: #85c4c9"></span>1.13-1.22</div>
+					<div><span class="legend-item" style="background-color: #68abb8"></span>1.22-1.38</div>
+					<div><span class="legend-item" style="background-color: #4f90a6"></span>1.38-1.63</div>
+					<div><span class="legend-item" style="background-color: #3b738f"></span>1.63-3.40</div>
 				</div>
 				{:else}
 				<div on:outrostart={e => e.target.classList.add('isFading')}
 					on:introstart={e => e.target.classList.remove('isFading')}>
 					<h4>Zoned Density</h4> <p>(dwelling units per acre)</p>
-					<div><span style="background-color: #a8dbd9"></span>0.00-1.99</div>
-					<div><span style="background-color: #85c4c9"></span>1.99-3.00</div>
-					<div><span style="background-color: #68abb8"></span>3.00-4.51</div>
-					<div><span style="background-color: #4f90a6"></span>4.51-6.17</div>
-					<div><span style="background-color: #3b738f"></span>6.17-51.50</div>
+					<div><span class="legend-item" style="background-color: #a8dbd9"></span>0.00-1.99</div>
+					<div><span class="legend-item" style="background-color: #85c4c9"></span>1.99-3.00</div>
+					<div><span class="legend-item" style="background-color: #68abb8"></span>3.00-4.51</div>
+					<div><span class="legend-item" style="background-color: #4f90a6"></span>4.51-6.17</div>
+					<div><span class="legend-item" style="background-color: #3b738f"></span>6.17-51.50</div>
 				</div>
 				{/if}
 			</div>
@@ -1019,7 +1019,10 @@
 		/* font-family: sans-serif; */
     }
 
-    .legend div span {
+    .legend-item {
+		width: 16px;
+		height: 16px;
+		z-index: 100;
         border-radius: 50%;
         display: inline-block;
         height: 1rem;
